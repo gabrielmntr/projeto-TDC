@@ -3,8 +3,8 @@ import requests
 
 link = input("Insira o link: ")
 
-if re.match(r'[a-z:/]+.wikipedia.org\/wiki\/([\w%]+)', link):  #valida o link dando match com a RegEx
-    html_page = requests.get(link) #html_page recebe um objeto do tipo 'requests'
+if re.match(r'[a-z:/]+.wikipedia.org\/wiki\/([\w%]+)', link):
+    html_page = requests.get(link)
     print("LINK VALIDO")
 
     print("a) Listar os topicos do indice do artigo")
@@ -13,31 +13,17 @@ if re.match(r'[a-z:/]+.wikipedia.org\/wiki\/([\w%]+)', link):  #valida o link da
     info = input("Qual informacao deseja-se extrair da pagina? ")
 
     if info == 'a':
+        firstHeading = re.findall(r'class="firstHeading" >([^<]+)</', html_page.text)
+        indice = re.findall(r'id="mw-toc-heading">([^<]+)</', html_page.text)
+        menu = re.findall(r'id="mw-navigation">\n\s+<h2>([^<]+)</', html_page.text)
+        data = re.findall(r'class="mw-headline"[^>]+>([^<]+)</', html_page.text)
 
-        data = re.findall(r'<h[^>]+>(.*)</h[^>]+>', html_page.text)
-        #data recebe uma lista com todos os matchs dessa RegEx
-        #que no caso eh tudo entre as tags h1, h2, h3 e nao soh o nome do topico
-        #uso outra regEx mais abaixo pra separar apenas o topico do id, class, etc
-
-        aux = 0
-        print('\n')
+        print(firstHeading[0])
+        print(indice[0])
+        print(menu[0])
         for line in data:
-            #os 3 primeiros topicos de todos os links que testei fogem do padrao da segunda regEx
-            #por isso estou printando essas 3 primeiras com aux enquanto n criamos uma regEx melhor
+            print(line)
 
-            if aux == 0:
-                print(line)
-            elif aux == 1:
-                print(line)
-            elif aux == 2:
-                print(line)
-            else:
-                #aqui armazeno na lista apenas o nome do topico e printo em seguida
-                list_of_topics = re.findall(r'id="[^"]+">([^<]+)<', line)
-                for topic in list_of_topics:
-                    print(topic)
-
-            aux += 1
 
     #elif: info == b:
 
@@ -47,6 +33,3 @@ if re.match(r'[a-z:/]+.wikipedia.org\/wiki\/([\w%]+)', link):  #valida o link da
 
 else:
     print("ERROR: LINK INVALIDO")
-
-
-
