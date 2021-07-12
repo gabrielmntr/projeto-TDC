@@ -16,8 +16,8 @@ if re.match(r'[a-z:/]+.wikipedia.org\/wiki\/([\w%]+)', link):
 
         data = re.findall(r'"toctext">(.*?)<', html_page.text)
         
-        for line in data:
-            print(line)
+        for topic in data:
+            print(topic)
 
     elif ch == 'b':
 
@@ -29,9 +29,21 @@ if re.match(r'[a-z:/]+.wikipedia.org\/wiki\/([\w%]+)', link):
 
         print(aux)
 
+    elif ch == 'c':
 
-    #elif: info == c:
+        texto = re.findall(r'<p>(.*)(\n)</p>', html_page.text)
 
+        for p in texto:
+            data = re.findall(r'/wiki/([^"]+)"', str(p))
+
+            for link in data:
+                print(link)
+
+    elif ch == 'd':
+
+        texto = re.findall(r'<p>(.*)(\n)</p>', html_page.text)
+        print(len(texto))
+        print(type(texto[1]))
 
 
 else:
