@@ -1,8 +1,14 @@
+#Nome: Web Scrapper
+#Autores: Gabriel Monteiro Gilvanilson dos Santos Bernardino
+
+#---------------------Bilbiotecas utilizadas------------------------------
+
 import re
 import os
 import requests
 
-#-------------------------------------------------------------------------
+#-----------------------Módulos do programa-------------------------------
+
 def modA(request): #Modulo de listar tópicos
     data = re.findall(r'"toctext">(.*?)<', request.text)
     n = 0
@@ -27,17 +33,18 @@ def modC(request): #Módulo para listar links
         for link in data:
             print("https://pt.wikipedia.org/wiki/"+link)
             n = n + 1
-    print(n, " links encontrados neste artigo.")
+    print(n, " links encontrados no texto.")
 
 def menu():
-    print("********** Web Scrapper **********\n")
+    print("\t\t\t********** Web Scrapper **********\n")
     print("Você pode obter as seguintes informações a partir de qualquer artigo da Wikipédia em português:\n")
     print("A - Listar os topicos do indice do artigo")
     print("B - Listar todos os nomes de arquivos de imagens presentes no artigo")
     print("C - Listar todos os links para outros artigos da wikipedia que sao citados no conteudo do artigo")
     print("X - Sair do programa.\n")
 
-#-------------------------------------------------------------------------
+#--------------------------------main-------------------------------------
+
 os.system("cls")
 menu()
 link = input("Insira o link de algum artigo para começar: ")
@@ -45,21 +52,21 @@ link = input("Insira o link de algum artigo para começar: ")
 while(link != 'X' and link != 'x'):
     if re.match(r'https:\/\/pt.wikipedia.org\/wiki\/([\w%]+)', link):
         os.system("cls")
-        print("O link é válido!")
         menu()
-        ch = input("Qual tipo de informacao deseja listar? ")
+        print("O link é válido! Link atual:", link)
+        ch = input("\nDigite um dos caracteres indicados para esocolher uma opção, ou um novo link para validação: ")
 
-        if ch == 'a':
+        if ch == 'a' or ch == 'A':
             os.system("cls")
             print("Listando tópicos: \n")
             modA(requests.get(link))
             os.system("pause")
-        elif ch == 'b':
+        elif ch == 'b' or ch == 'B':
             os.system("cls")
             print("Listando imagens: \n")
             modB(requests.get(link))
             os.system("pause")
-        elif ch == 'c':
+        elif ch == 'c' or ch == 'C':
             os.system("cls")
             print("Listando links: \n")
             modC(requests.get(link))
@@ -67,9 +74,11 @@ while(link != 'X' and link != 'x'):
         elif ch == 'x' or ch == 'X':
             link = ch
         else:
-            print("Opção inválida, tente novamente. ")
+            link = ch
+            print("Obtendo novo link...")
             os.system("pause")
+
     else:
-        link = input("Link inválido, tenthe novamente: ")
+        link = input("Link inválido, tente novamente: ")
     
 print("Saindo...")
