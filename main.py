@@ -30,7 +30,8 @@ def modC(request):  # Módulo para listar links
     for p in texto:
         data = re.findall(r'/wiki/([^"(]+)', str(p))
         for link in data:
-            print("https://pt.wikipedia.org/wiki/" + link)
+            link = "https://pt.wikipedia.org/wiki/" + link
+            print(link)
             n = n + 1
     print(n, " links encontrados no texto.")
 
