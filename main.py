@@ -12,20 +12,16 @@ import requests
 
 def modA(request):  # Modulo de listar tópicos
     data = re.findall(r'"toctext">(.*?)<', request.text)
-    n = 0
     for topic in data:
         print(topic)
-        n = n + 1
-    print(n, " tópicos encontrados neste artigo.")
+    print(len(data), "tópicos encontrados neste artigo.")
 
 
 def modB(request):  # Módulo para listar imagens
     data = re.findall(r'Ficheiro:(.*)" class="image"', request.text)
-    n = 0
     for image in data:
-        print(image)
-        n = n + 1
-    print(n, " imagens encontrados neste artigo.")
+            print(image)
+    print(len(data), "imagens encontrados neste artigo.")
 
 
 def modC(request):  # Módulo para listar links
@@ -89,5 +85,6 @@ while (link != 'X' and link != 'x'):
 
     else:
         link = input("Link inválido, tente novamente: ")
-
+    
 print("Saindo...")
+os.system("cls")
